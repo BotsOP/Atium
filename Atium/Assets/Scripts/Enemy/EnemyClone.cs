@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyClone : MonoBehaviour
 {
+    [SerializeField] private float timeBetweenActions = 1f;
     private NavMeshAgent agent;
     private Animator anim;
     void Start()
@@ -15,18 +16,30 @@ public class EnemyClone : MonoBehaviour
 
     void Update()
     {
-
+        
     }
 
     public IEnumerator SetDestination(Vector3 walkTo)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(timeBetweenActions * 2);
         agent.SetDestination(walkTo);
     }
 
     public IEnumerator SetVelocity(float velocity)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(timeBetweenActions);
         anim.SetFloat("VelocityZ", velocity);
+    }
+    
+    public IEnumerator SetAttack(bool value)
+    {
+        yield return new WaitForSeconds(timeBetweenActions);
+        anim.SetBool("Attacking", value);
+    }
+
+    public IEnumerator LookAtTarget(Vector3 lookAt)
+    {
+        yield return new WaitForSeconds(timeBetweenActions);
+        transform.LookAt(lookAt);
     }
 }

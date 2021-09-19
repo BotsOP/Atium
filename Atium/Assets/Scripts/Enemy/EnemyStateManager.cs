@@ -11,13 +11,12 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Animator anim;
     [HideInInspector] public Transform chaseTarget;
-
+    
+    public float distUntilAttack = 2;
     public EnemyClone clone;
     public float visionDistance = 5f;
     
-    
     private EnemyBaseState currentState;
-    
     
     void Start()
     {

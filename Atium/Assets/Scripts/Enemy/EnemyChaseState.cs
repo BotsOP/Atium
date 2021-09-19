@@ -15,7 +15,7 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void UpdateState()
     {
-        if (Vector3.Distance(enemy.transform.position, enemy.chaseTarget.position) < 3)
+        if (Vector3.Distance(enemy.transform.position, enemy.chaseTarget.position) < enemy.distUntilAttack)
         {
             enemy.SwitchState(enemy.attackState);
         }
@@ -23,7 +23,6 @@ public class EnemyChaseState : EnemyBaseState
         if (frameCount % 20 == 0)
         {
             SetNewDestination();
-            SetClonePos();
         }
         frameCount++;
     }
@@ -31,10 +30,7 @@ public class EnemyChaseState : EnemyBaseState
     private void SetNewDestination()
     {
         enemy.agent.SetDestination(enemy.chaseTarget.position);
-    }
-    
-    private void SetClonePos()
-    {
         enemy.clone.StartCoroutine("SetDestination", enemy.transform.position);
     }
+
 }

@@ -34,15 +34,11 @@ public class EnemyWanderState : EnemyBaseState
         {
             SetNewDestination();
         }
-        
-        
-        
+
         if (frameCount % 20 == 0)
         {
-            SetClonePos();
             LookForPlayer();
         }
-        Debug.Log(enemy.agent.velocity.normalized.magnitude);
         frameCount++;
     }
 
@@ -50,10 +46,6 @@ public class EnemyWanderState : EnemyBaseState
     {
         walkTo = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         enemy.agent.SetDestination(walkTo);
-    }
-
-    private void SetClonePos()
-    {
         enemy.clone.StartCoroutine("SetDestination", enemy.transform.position);
     }
 
