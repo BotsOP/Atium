@@ -8,27 +8,74 @@ using Random = UnityEngine.Random;
 
 public class EnemyWanderState : EnemyBaseState
 {
-    public static event Action<Vector3> updateWalkTo; 
     private Vector3 walkTo;
+    private int frameCount;
+    private int playermask;
+    private EnemyStateManager enemy;
+    private bool hasSubcribed;
+    
     public override void EnterState(EnemyStateManager enemy)
     {
-        SetNewDestination(enemy);
+        this.enemy = enemy;
+        
+        // if(!hasSubcribed)
+        //     EventSystem.Subscribe(EventType.FOUND_PLAYER, FoundTarget);
+        
+        SetNewDestination();
+        enemy.anim.SetFloat("VelocityZ", 1);
+        enemy.clone.StartCoroutine("SetVelocity", 1f);
+        
+        playermask = 1 << 8;
     }
 
-    public override void UpdateState(EnemyStateManager enemy)
+    public override void UpdateState()
     {
         if (Vector3.Distance(enemy.agent.transform.position, walkTo) < 0.5f)
         {
-            SetNewDestination(enemy);
+            SetNewDestination();
         }
-        enemy.anim.SetFloat("VelocityZ", 1);
-        updateWalkTo?.Invoke(enemy.transform.position);
+        
+        
+        
+        if (frameCount % 20 == 0)
+        {
+            SetClonePos();
+            LookForPlayer();
+        }
+        Debug.Log(enemy.agent.velocity.normalized.magnitude);
+        frameCount++;
     }
 
-    private void SetNewDestination(EnemyStateManager enemy)
+    private void SetNewDestination()
     {
         walkTo = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         enemy.agent.SetDestination(walkTo);
-        
+    }
+
+    private void SetClonePos()
+    {
+        enemy.clone.StartCoroutine("SetDestination", enemy.transform.position);
+    }
+
+    private void LookForPlayer()
+    {
+        RaycastHit hit;
+        Vector3 centerBody = new Vector3(enemy.transform.position.x, enemy.transform.position.y + 1, enemy.transform.position.z);
+        if (Physics.Raycast(centerBody, enemy.transform.TransformDirection(Vector3.forward),out hit, enemy.visionDistance, playermask))
+        {
+            FoundTarget(hit.transform);
+            //EventSystem.RaiseEvent(EventType.FOUND_PLAYER);
+            
+            enemy.SwitchState(enemy.chaseState);
+            Debug.Log("FOUND PLAYER");
+        }
+    }
+
+    private void FoundTarget(Transform target)
+    {
+        if (enemy.chaseTarget == null)
+        {
+            enemy.chaseTarget = target;
+        }
     }
 }

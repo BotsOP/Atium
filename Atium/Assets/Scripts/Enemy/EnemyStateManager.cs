@@ -8,25 +8,29 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyWanderState wanderState = new EnemyWanderState();
     public EnemyAttackState attackState = new EnemyAttackState();
     
-    public NavMeshAgent agent;
-    public Animator anim;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public Animator anim;
+    [HideInInspector] public Transform chaseTarget;
 
-    public NavMeshAgent agentClone;
-    public Animator animClone;
-
-    public float timeBetweenClone;
+    public EnemyClone clone;
+    public float visionDistance = 5f;
+    
     
     private EnemyBaseState currentState;
     
+    
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
+        
         currentState = wanderState;
         currentState.EnterState(this);
     }
 
     void Update()
     {
-        currentState.UpdateState(this);
+        currentState.UpdateState();
     }
 
     public void SwitchState(EnemyBaseState state)

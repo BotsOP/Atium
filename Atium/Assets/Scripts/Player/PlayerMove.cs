@@ -20,11 +20,22 @@ public class PlayerMove : MonoBehaviour
         anim.SetFloat("VelocityX", horizontal * 2);
         anim.SetFloat("VelocityZ", vertical * 2);
 
-        // if (horizontal != 0 || vertical != 0)
-        // {
-        float targetAngle = cam.eulerAngles.y;
-        Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turnSpeed);
-        //}
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim.SetBool("Attacking", true);
+        }
+
+        if (horizontal != 0 || vertical != 0)
+        {
+            float targetAngle = cam.eulerAngles.y;
+            Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turnSpeed);
+        }
+    }
+
+    public void DoneAttacking()
+    {
+        Debug.Log("done attacking");
+        anim.SetBool("Attacking", false);
     }
 }
