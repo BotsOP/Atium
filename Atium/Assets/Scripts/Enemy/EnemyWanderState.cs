@@ -51,7 +51,6 @@ public class EnemyWanderState : EnemyBaseState
         if (Physics.Raycast(centerBody, enemy.transform.TransformDirection(Vector3.forward),out hit, enemy.visionDistance, playermask))
         {
             FoundTarget(hit.transform);
-            //EventSystem.RaiseEvent(EventType.FOUND_PLAYER);
             
             enemy.SwitchState(enemy.chaseState);
             Debug.Log("FOUND PLAYER");

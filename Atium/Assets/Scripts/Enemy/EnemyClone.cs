@@ -6,53 +6,49 @@ using UnityEngine.AI;
 public class EnemyClone : MonoBehaviour
 {
     [SerializeField] private float timeBetweenActions = 1f;
-    private NavMeshAgent agent;
+    private float delay;
+    private float startTime;
     private Animator anim;
     void Start()
     {
-        //agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
     }
 
-    void Update()
+    private void OnEnable()
     {
-        
+        delay = 0;
+        startTime = Time.time;
     }
 
-    public IEnumerator SetDestination(Vector3 walkTo)
+    private void Update()
     {
-        yield return new WaitForSeconds(timeBetweenActions);
-        agent.SetDestination(walkTo);
+        if(delay < timeBetweenActions)
+        {
+            delay = Mathf.Lerp(delay, timeBetweenActions, (Time.time - startTime) / 30);
+        }
     }
 
     public IEnumerator SetVelocity(float velocity)
     {
-        yield return new WaitForSeconds(timeBetweenActions);
+        yield return new WaitForSeconds(delay);
         anim.SetFloat("VelocityZ", velocity);
     }
     
     public IEnumerator SetAttack(bool value)
     {
-        yield return new WaitForSeconds(timeBetweenActions);
-        Debug.Log("CLONE ATTACKING" + Time.time);
+        yield return new WaitForSeconds(delay);
         anim.SetBool("Attacking", value);
-    }
-
-    public IEnumerator LookAtTarget(Vector3 lookAt)
-    {
-        yield return new WaitForSeconds(timeBetweenActions);
-        transform.LookAt(lookAt);
     }
 
     public IEnumerator SetRotation(Quaternion rotation)
     {
-        yield return new WaitForSeconds(timeBetweenActions);
+        yield return new WaitForSeconds(delay);
         transform.rotation = rotation;
     }
 
     public IEnumerator SetPosition(Vector3 position)
     {
-        yield return new WaitForSeconds(timeBetweenActions);
+        yield return new WaitForSeconds(delay);
         transform.position = position;
     }
 }
