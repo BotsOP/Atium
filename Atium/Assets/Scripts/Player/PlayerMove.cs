@@ -22,24 +22,9 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            EventSystem.RaiseEvent(EventType.PLAYER_ATTACK);
             anim.SetBool("Attacking", true);
         }
-        
-        // anim.SetBool("Dodging", false);
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     anim.SetFloat("DodgeZ", 0);
-        //     anim.SetFloat("DodgeX", 0);
-        //     if (vertical != 0)
-        //     {
-        //         anim.SetFloat("DodgeZ", vertical);
-        //     }
-        //     if (horizontal != 0)
-        //     {
-        //         anim.SetFloat("DodgeX", horizontal);
-        //     }
-        //     anim.SetBool("Dodging", true);
-        // }
 
         if (horizontal != 0 || vertical != 0)
         {
@@ -51,7 +36,7 @@ public class PlayerMove : MonoBehaviour
 
     public void DoneAttacking()
     {
-        Debug.Log("done attacking");
+        EventSystem.RaiseEvent(EventType.PLAYER_DONE_ATTACK);
         anim.SetBool("Attacking", false);
     }
 }

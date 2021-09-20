@@ -4,10 +4,8 @@ using UnityEngine;
 
 public enum EventType
 {
-    FOUND_PLAYER,
-    NEXT_TASK,
-    ENTER_KITCHEN,
-    EAT_HAMBURGER
+    PLAYER_ATTACK,
+    PLAYER_DONE_ATTACK
 }
 
 public static class EventSystem

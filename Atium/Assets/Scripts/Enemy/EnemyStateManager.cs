@@ -17,6 +17,7 @@ public class EnemyStateManager : MonoBehaviour
     public float visionDistance = 5f;
     
     private EnemyBaseState currentState;
+    private bool isAlive = true;
     
     void Start()
     {
@@ -32,8 +33,17 @@ public class EnemyStateManager : MonoBehaviour
         currentState.UpdateState();
 
         //update clone
-        clone.StartCoroutine("SetPosition", transform.position);
-        clone.StartCoroutine("SetRotation", transform.rotation);
+        if (isAlive)
+        {
+            clone.StartCoroutine("SetPosition", transform.position);
+            clone.StartCoroutine("SetRotation", transform.rotation);
+        }
+    }
+
+    public void enemyDied()
+    {
+        isAlive = false;
+        Destroy(gameObject, 2);
     }
 
     public void SwitchState(EnemyBaseState state)

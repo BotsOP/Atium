@@ -12,6 +12,7 @@ public class EnemyWanderState : EnemyBaseState
     private int frameCount;
     private int playermask;
     private EnemyStateManager enemy;
+    private float startTime;
     
     public override void EnterState(EnemyStateManager enemy)
     {
@@ -22,7 +23,6 @@ public class EnemyWanderState : EnemyBaseState
         
         SetNewDestination();
 
-        enemy.anim.SetFloat("VelocityZ", 1);
         enemy.clone.StartCoroutine("SetVelocity", 1f);
 
         playermask = 1 << 8;
@@ -33,6 +33,12 @@ public class EnemyWanderState : EnemyBaseState
         if (Vector3.Distance(enemy.agent.transform.position, walkTo) < 0.5f)
         {
             SetNewDestination();
+        }
+        
+        float VelocityZ = enemy.anim.GetFloat("VelocityZ");
+        if (VelocityZ != 1)
+        {
+            enemy.anim.SetFloat("VelocityZ", Mathf.Lerp(VelocityZ, 1, (Time.time - startTime) / 10));
         }
 
         LookForPlayer();
