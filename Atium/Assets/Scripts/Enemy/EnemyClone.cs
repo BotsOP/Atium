@@ -10,7 +10,7 @@ public class EnemyClone : MonoBehaviour
     private Animator anim;
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        //agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
     }
 
@@ -21,7 +21,7 @@ public class EnemyClone : MonoBehaviour
 
     public IEnumerator SetDestination(Vector3 walkTo)
     {
-        yield return new WaitForSeconds(timeBetweenActions * 2);
+        yield return new WaitForSeconds(timeBetweenActions);
         agent.SetDestination(walkTo);
     }
 
@@ -34,6 +34,7 @@ public class EnemyClone : MonoBehaviour
     public IEnumerator SetAttack(bool value)
     {
         yield return new WaitForSeconds(timeBetweenActions);
+        Debug.Log("CLONE ATTACKING" + Time.time);
         anim.SetBool("Attacking", value);
     }
 
@@ -41,5 +42,17 @@ public class EnemyClone : MonoBehaviour
     {
         yield return new WaitForSeconds(timeBetweenActions);
         transform.LookAt(lookAt);
+    }
+
+    public IEnumerator SetRotation(Quaternion rotation)
+    {
+        yield return new WaitForSeconds(timeBetweenActions);
+        transform.rotation = rotation;
+    }
+
+    public IEnumerator SetPosition(Vector3 position)
+    {
+        yield return new WaitForSeconds(timeBetweenActions);
+        transform.position = position;
     }
 }

@@ -15,9 +15,8 @@ public class EnemyAttackState : EnemyBaseState
         this.enemy = enemy;
         enemy.anim.SetFloat("VelocityZ", 0);
         enemy.clone.StartCoroutine("SetVelocity", 0f);
-        
+
         enemy.agent.SetDestination(enemy.transform.position);
-        enemy.clone.StartCoroutine("SetDestination", enemy.transform.position + offset);
         
         LookAtPlayer();
         
@@ -26,7 +25,7 @@ public class EnemyAttackState : EnemyBaseState
 
         timeAttack = Time.time;
         
-        Debug.Log("ATTACKING");
+        Debug.Log("ATTACKING" + Time.time);
     }
 
     public override void UpdateState()
@@ -36,7 +35,6 @@ public class EnemyAttackState : EnemyBaseState
             enemy.anim.SetBool("Attacking", false);
             enemy.clone.StartCoroutine("SetAttack", false);
             enemy.SwitchState(enemy.chaseState);
-            Debug.Log("DONE ATTACKING");
         }
     }
 
@@ -44,7 +42,6 @@ public class EnemyAttackState : EnemyBaseState
     {
         Vector3 lookAt = new Vector3(enemy.chaseTarget.position.x, enemy.transform.position.y, enemy.chaseTarget.position.z);
         enemy.transform.LookAt(lookAt);
-        enemy.clone.StartCoroutine("LookAtTarget", lookAt);
     }
 
 }

@@ -30,7 +30,6 @@ public class EnemyChaseState : EnemyBaseState
     private void SetNewDestination()
     {
         enemy.agent.SetDestination(enemy.chaseTarget.position);
-        enemy.clone.StartCoroutine("SetDestination", enemy.transform.position);
     }
 
 }

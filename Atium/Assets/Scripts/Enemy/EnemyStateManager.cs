@@ -30,6 +30,8 @@ public class EnemyStateManager : MonoBehaviour
     void Update()
     {
         currentState.UpdateState();
+        clone.StartCoroutine("SetPosition", transform.position);
+        clone.StartCoroutine("SetRotation", transform.rotation);
     }
 
     public void SwitchState(EnemyBaseState state)

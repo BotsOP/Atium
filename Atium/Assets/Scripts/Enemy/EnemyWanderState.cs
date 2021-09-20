@@ -12,19 +12,19 @@ public class EnemyWanderState : EnemyBaseState
     private int frameCount;
     private int playermask;
     private EnemyStateManager enemy;
-    private bool hasSubcribed;
     
     public override void EnterState(EnemyStateManager enemy)
     {
         this.enemy = enemy;
-        
+
         // if(!hasSubcribed)
         //     EventSystem.Subscribe(EventType.FOUND_PLAYER, FoundTarget);
         
         SetNewDestination();
+
         enemy.anim.SetFloat("VelocityZ", 1);
         enemy.clone.StartCoroutine("SetVelocity", 1f);
-        
+
         playermask = 1 << 8;
     }
 
@@ -35,18 +35,13 @@ public class EnemyWanderState : EnemyBaseState
             SetNewDestination();
         }
 
-        if (frameCount % 20 == 0)
-        {
-            LookForPlayer();
-        }
-        frameCount++;
+        LookForPlayer();
     }
 
     private void SetNewDestination()
     {
         walkTo = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         enemy.agent.SetDestination(walkTo);
-        enemy.clone.StartCoroutine("SetDestination", enemy.transform.position);
     }
 
     private void LookForPlayer()
