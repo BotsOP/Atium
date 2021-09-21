@@ -12,7 +12,9 @@ public class EnemyAttackState : EnemyBaseState
     public override void EnterState(EnemyStateManager enemy)
     {
         this.enemy = enemy;
-
+        
+        enemy.agent.ResetPath();
+        enemy.agent.isStopped = true;
         enemy.agent.updateRotation = false;
         enemy.agent.updatePosition = false;
 
@@ -35,7 +37,8 @@ public class EnemyAttackState : EnemyBaseState
         {
             enemy.anim.SetBool("Attacking", false);
             enemy.clone.StartCoroutine("SetAttack", false);
-
+            
+            enemy.agent.isStopped = false;
             enemy.agent.updateRotation = true;
             enemy.agent.updatePosition = true;
 

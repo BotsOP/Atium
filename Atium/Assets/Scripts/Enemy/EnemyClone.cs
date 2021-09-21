@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class EnemyClone : MonoBehaviour
 {
     public float timeBetweenActions = 1f;
+    public bool newOrders;
     [HideInInspector] public float delay;
     private float startTime;
     private Animator anim;
@@ -28,13 +29,17 @@ public class EnemyClone : MonoBehaviour
 
     public IEnumerator SetRotation(Quaternion rotation)
     {
+        newOrders = false;
         yield return new WaitForSeconds(delay);
-        transform.rotation = rotation;
+        if(!newOrders)
+            transform.rotation = rotation;
+        newOrders = true;
     }
 
     public IEnumerator SetPosition(Vector3 position)
     {
         yield return new WaitForSeconds(delay);
-        transform.position = position;
+        if(!newOrders)
+            transform.position = position;
     }
 }

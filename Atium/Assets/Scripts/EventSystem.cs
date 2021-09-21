@@ -5,7 +5,9 @@ using UnityEngine;
 public enum EventType
 {
     PLAYER_ATTACK,
-    PLAYER_DONE_ATTACK
+    PLAYER_DONE_ATTACK,
+    START_GHOST,
+    END_GHOST
 }
 
 public static class EventSystem

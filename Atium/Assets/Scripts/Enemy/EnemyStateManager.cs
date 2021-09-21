@@ -23,7 +23,10 @@ public class EnemyStateManager : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        
+
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+
         currentState = wanderState;
         currentState.EnterState(this);
     }

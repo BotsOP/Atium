@@ -8,6 +8,9 @@ using Random = UnityEngine.Random;
 
 public class EnemyWanderState : EnemyBaseState
 {
+    private const float AGENT_WALK_SPEED = 2;
+    private const float ANIM_WALK_SPEED = 1;
+    
     private Vector3 walkTo;
     private int frameCount;
     private int playermask;
@@ -23,7 +26,7 @@ public class EnemyWanderState : EnemyBaseState
         
         SetNewDestination();
 
-        enemy.clone.StartCoroutine("SetVelocity", 1f);
+        enemy.clone.StartCoroutine("SetVelocity", ANIM_WALK_SPEED);
 
         playermask = 1 << 8;
     }
@@ -34,11 +37,12 @@ public class EnemyWanderState : EnemyBaseState
         {
             SetNewDestination();
         }
-        
+
         float VelocityZ = enemy.anim.GetFloat("VelocityZ");
         if (VelocityZ != 1)
         {
-            enemy.anim.SetFloat("VelocityZ", Mathf.Lerp(VelocityZ, 1, (Time.time - startTime) / 10));
+            enemy.anim.SetFloat("VelocityZ", Mathf.Lerp(VelocityZ, ANIM_WALK_SPEED, (Time.time - startTime) / 10));
+            enemy.agent.speed = Mathf.Lerp(enemy.agent.speed, AGENT_WALK_SPEED, (Time.time - startTime) / 5);
         }
 
         LookForPlayer();
@@ -46,6 +50,7 @@ public class EnemyWanderState : EnemyBaseState
 
     private void SetNewDestination()
     {
+        //Needs to be replaced with patrol state instead of wander
         walkTo = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         enemy.agent.SetDestination(walkTo);
     }

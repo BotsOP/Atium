@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyBaseState
 {
+    private const float AGENT_RUN_SPEED = 4;
+    private const float ANIM_RUN_SPEED = 2;
+    
     private EnemyStateManager enemy;
     private int frameCount;
     private float startTime;
     public override void EnterState(EnemyStateManager enemy)
     {
         this.enemy = enemy;
-        enemy.clone.StartCoroutine("SetVelocity", 2f);
+        enemy.clone.StartCoroutine("SetVelocity", ANIM_RUN_SPEED);
         startTime = Time.time;
     }
 
@@ -24,7 +27,8 @@ public class EnemyChaseState : EnemyBaseState
         float VelocityZ = enemy.anim.GetFloat("VelocityZ");
         if (VelocityZ != 2)
         {
-            enemy.anim.SetFloat("VelocityZ", Mathf.Lerp(VelocityZ, 2, (Time.time - startTime) / 10));
+            enemy.anim.SetFloat("VelocityZ", Mathf.Lerp(VelocityZ, ANIM_RUN_SPEED, (Time.time - startTime) / 10));
+            enemy.agent.speed = Mathf.Lerp(enemy.agent.speed, AGENT_RUN_SPEED, (Time.time - startTime) / 5);
         }
 
         if (frameCount % 20 == 0)
