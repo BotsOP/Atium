@@ -16,8 +16,8 @@ GameObject:
   m_Name: SM_Env_Pillar_Broken_Pile_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 18
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 26
   m_IsActive: 1
 --- !u!4 &497628
 Transform:
