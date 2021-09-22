@@ -50,7 +50,6 @@ public class EnemyGhost : MonoBehaviour
 
         if (!reset)
         {
-            Debug.Log("dissapearing");
             ghostMat.color = Color.Lerp(ghostMat.color, Color.clear, (Time.time - startTime) / 5);
         }
         if (!reset && ghostMat.color == Color.clear && !hasReset)
@@ -62,7 +61,6 @@ public class EnemyGhost : MonoBehaviour
     private IEnumerator Reset()
     {
         float cachedDelay = enemyClone.delay;
-        Debug.Log("DISSAPEARED");
         enemyGhost.position = transform.position;
         enemyClone.delay = 0;
         hasReset = true;

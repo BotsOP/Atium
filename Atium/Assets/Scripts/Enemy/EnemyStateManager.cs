@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyStateManager : MonoBehaviour
 {
     public EnemyChaseState chaseState = new EnemyChaseState();
-    public EnemyWanderState wanderState = new EnemyWanderState();
+    public EnemyPatrolState wanderState = new EnemyPatrolState();
     public EnemyAttackState attackState = new EnemyAttackState();
     
     [HideInInspector] public NavMeshAgent agent;
@@ -13,8 +13,13 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public Transform chaseTarget;
     
     public float distUntilAttack = 2;
-    public EnemyClone clone;
     public float visionDistance = 5f;
+    public float switchProbability = 0.2f;
+    public bool waitAtPoints = true;
+    public float waitingTime = 5;
+    public int startingPatrolIndex;
+    public Transform[] patrolsPoints; 
+    public EnemyClone clone;
     
     private EnemyBaseState currentState;
     private bool isAlive = true;
